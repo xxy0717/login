@@ -1,43 +1,26 @@
 import streamlit as st
 from game import Game
 
-# Set page title
-st.set_page_config(page_title="围棋游戏", page_icon=":memo:", layout="wide")
+st.set_page_config(page_title='Weiqi Game')
 
-# Create a new game
-game = Game()
+# Define game modes
+HUMAN_VS_HUMAN = 'Human vs. Human'
+HUMAN_VS_AI = 'Human vs. AI'
 
-# Title
-st.title("围棋游戏")
+# Define default settings
+DEFAULT_MODE = HUMAN_VS_AI
+DEFAULT_AI_LEVEL = 2
 
-# Sidebar
-st.sidebar.title("游戏设置")
-difficulty = st.sidebar.slider("请选择机器的围棋水平", 1, 10, 5)
+def main():
+    st.title('Weiqi Game')
+    mode = st.sidebar.radio('Select game mode:', (HUMAN_VS_HUMAN, HUMAN_VS_AI), index=1)
 
-# Main content
-if st.button("开始新游戏"):
-    game.start_game(difficulty)
-
-if game.started:
-    # Draw the board
-    st.write("当前棋局：")
-    st.image(game.draw_board(), use_column_width=True)
-
-    # Check if game is over
-    if game.check_game_over():
-        st.write("游戏结束！")
-        if game.winner is None:
-            st.write("平局！")
-        else:
-            st.write(f"{game.winner} 获胜！")
-
-    # Check if it's the machine's turn
-    elif game.turn == Game.MACHINE:
-        st.write("机器正在思考中...")
-        game.make_move()
-
-    # Let the user make a move
+    if mode == HUMAN_VS_HUMAN:
+        st.warning('Human vs. Human mode is not yet supported.')
     else:
-        col, row = st.number_input("请输入你的落子位置（例如：3,4）", value=(0, 0), step=1)
-        if st.button("下子"):
-            game.make_move((col, row))
+        ai_level = st.sidebar.slider('Select AI level (1-5):', 1, 5, DEFAULT_AI_LEVEL)
+        game = Game(mode=mode, ai_level=ai_level)
+        game.run()
+
+if __name__ == '__main__':
+    main()
