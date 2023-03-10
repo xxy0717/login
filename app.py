@@ -8,7 +8,7 @@ def job():
     print(response.status_code)  # 打印访问结果
 
 # 每天的8:00执行一次任务
-schedule.every().day.at("15:08").do(job)
+schedule.every().day.at("7:10").do(job)
 
 # 定时任务主循环
 while True:
