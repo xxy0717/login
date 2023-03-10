@@ -9,7 +9,7 @@ def job():
     print(response.status_code)  # 打印访问结果
 
 beijing_tz = timezone("Asia/Shanghai")  # 设置时区为北京时间
-schedule.every().day.at("15:20").do(job).tzinfo(beijing_tz)  # 在北京时间15:20执行任务
+schedule.every().day.at("15:20").tzinfo(beijing_tz).do(job)  # 在北京时间15:20执行任务
 
 # 定时任务主循环
 while True:
